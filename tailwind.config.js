@@ -5,7 +5,11 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "appoint-pattern": "url('./assets/images/appointment.png')",
+      },
+    },
   },
   plugins: [require("tw-elements/dist/plugin")],
 };

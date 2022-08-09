@@ -1,6 +1,4 @@
 import React from "react";
-import { BsClock } from "react-icons/bs";
-
 export default function ShowCaseCard({ cardInfo }) {
   return (
     <>
