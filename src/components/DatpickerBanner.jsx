@@ -1,12 +1,9 @@
-import React, { useState } from "react";
 import SideImg from "../assets/images/doctorbanner.png";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 
-export default function DatpickerBanner() {
-  const [selected, setSelected] = useState(new Date());
-  console.log(selected);
+export default function DatpickerBanner({ selected, setSelected }) {
   return (
     <>
       <section className="mb-20 background-radial-gradient overflow-hidden">
@@ -23,7 +20,7 @@ export default function DatpickerBanner() {
               <div className="mb-0 md:mb-12 lg:mb-0 relative">
                 <div className=" flex justify-center rounded-xl">
                   <DayPicker
-                    className="bg-white p-10 rounded-xl shadow-xl"
+                    className="bg-white p-10 rounded-2xl shadow-xl"
                     mode="single"
                     selected={selected}
                     onSelect={setSelected}
