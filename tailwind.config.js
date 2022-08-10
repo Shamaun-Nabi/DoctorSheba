@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         "appoint-pattern": "url('./assets/images/appointment.png')",
+        "date-pattern": "url('./assets/images/bgblue.png')",
       },
     },
   },
