@@ -1,8 +1,24 @@
+import { signOut } from "firebase/auth";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
+import Loading from "../components/Loading";
+import auth from "../firbase.init";
 
 export default function Navbar() {
+  const [user, loading, error] = useAuthState(auth);
+
+  console.log(user?.photoURL);
+
+  const logOut = () => {
+    signOut(auth);
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <nav className="relative w-full flex flex-wrap items-center justify-between py-3 text-slate-900 shadow-md navbar navbar-expand-lg navbar-light">
@@ -134,54 +150,67 @@ export default function Navbar() {
           </div>
           {/* Collapsible wrapper */}
           {/* Right elements */}
-          <div className="flex items-center relative">
-            <div className=" dropend relative">
-              <a
-                className="dropdown-toggle flex items-center hidden-arrow"
-                href="/"
-                id="dropdownMenuButton2"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-                  className="rounded-full"
-                  style={{ height: 45, width: 45 }}
-                  alt=""
-                  loading="lazy"
-                />
-              </a>
-              <ul
-                className="dropdown-menu w-40 min-w-max absolute hidden bg-slate-200 text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1  m-0 bg-clip-padding border-none  left auto right-0"
-                aria-labelledby="dropdownMenuButton2"
-              >
-                <li>
-                  <a
-                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                    href="/"
-                  >
-                    Profile
-                  </a>
-                </li>
-                <hr className="h-0 my-2 border border-solid border-t-0 border-gray-700 opacity-25" />
-                <li>
-                  <a
-                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                    href="/"
-                  >
-                    Logout
-                  </a>
-                </li>
-              </ul>
+          <div className={`${user ? "block" : "hidden"}`}>
+            <div className="flex items-center relative">
+              <div className=" dropend relative">
+                <a
+                  className="dropdown-toggle flex items-center hidden-arrow"
+                  href="/"
+                  id="dropdownMenuButton2"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    src={`${user?.photoURL}`}
+                    className="rounded-full"
+                    style={{ height: 50, width: 50 }}
+                    alt="Not found"
+                    // loading="lazy"
+                  />
+                </a>
+                <ul
+                  className="dropdown-menu w-40 min-w-max absolute hidden bg-slate-200 text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1  m-0 bg-clip-padding border-none  left auto right-0"
+                  aria-labelledby="dropdownMenuButton2"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                      href="/"
+                    >
+                      {user?.displayName}
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      to="/update"
+                      className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                    >
+                      Update Profile
+                    </Link>
+                  </li>
+                  <hr className="h-0 my-2 border border-solid border-t-0 border-gray-700 opacity-25" />
+                  <li>
+                    <a
+                      onClick={logOut}
+                      className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                      href="/"
+                    >
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
-          <NavLink to="login" className="nav-item p-2">
-            <li className="nav-link text-slate-800 opacity-75 list-none hover:opacity-80 focus:opacity-80 p-0">
-              Login
-            </li>
-          </NavLink>
+          <div className={`${user ? "hidden" : "block"}`}>
+            <NavLink to="login" className="nav-item p-2">
+              <li className="nav-link text-slate-800 opacity-75 list-none hover:opacity-80 focus:opacity-80 p-0">
+                Login
+              </li>
+            </NavLink>
+          </div>
 
           {/* Right elements */}
         </div>
