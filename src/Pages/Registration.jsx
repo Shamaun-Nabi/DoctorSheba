@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import auth from "../firbase.init";
@@ -15,11 +16,14 @@ export default function Registration() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+  const [sendEmailVerification, sending, VerificationError] =
+    useSendEmailVerification(auth);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm();
 
   if (loading || updating) {
@@ -28,7 +32,9 @@ export default function Registration() {
   const userInfoSignIn = async (data) => {
     if (data.Password === data.ConfirmPassword) {
       await createUserWithEmailAndPassword(data.Email, data.Password);
+      await sendEmailVerification();
       await updateProfile({ displayName: data.fullName });
+
       console.log(data.Email, data.Password);
       navigate("/");
       toast.success("User Created");
@@ -66,8 +72,10 @@ export default function Registration() {
                       },
                     })}
                   />
-                  {errors.fullName?.type === "required" && (
-                    <span className="text-red-500 p-2">Name Is Required</span>
+                  {errors.fullName && (
+                    <span className="text-red-500 p-2">
+                      {errors.fullName.message}
+                    </span>
                   )}
                 </div>
                 {/* Email input */}
@@ -77,12 +85,21 @@ export default function Registration() {
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Email address"
                     {...register("Email", {
-                      required: true,
-                      // pattern: /^\S+@\S+$/i,
+                      required: "Email Is Required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Email Invalids",
+                      },
                     })}
+                    // Live error tracking
+                    onKeyUp={() => {
+                      trigger("Email");
+                    }}
                   />
-                  {errors.fullName?.type === "required" && (
-                    <span className="text-red-500 p-2">Email Required</span>
+                  {errors.Email && (
+                    <span className="text-red-500 p-2">
+                      {errors.Email.message}
+                    </span>
                   )}
                 </div>
                 {/* Password input */}
@@ -92,20 +109,55 @@ export default function Registration() {
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Password"
                     {...register("Password", {
-                      required: true,
+                      required: "Password is Required",
+                      minLength: {
+                        value: 6,
+                        message: "Minimum 6 Character",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Maximum Length is 10",
+                      },
                     })}
+                    // Live error tracking
+                    onKeyUp={() => {
+                      trigger("Password");
+                    }}
                   />
-                  {error}
+                  {errors.Password && (
+                    <p className="text-red-500">{errors.Password.message}</p>
+                  )}
                 </div>
                 <div className="mb-6">
                   <input
                     type="password"
-                    className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    className={`form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white ${
+                      errors.ConfirmPassword
+                        ? "focus:border-red-600"
+                        : "focus:border-green-600"
+                    } focus:outline-none`}
                     placeholder="Confirm Password"
                     {...register("ConfirmPassword", {
-                      required: true,
+                      required: "Confirm Password Required",
+                      minLength: {
+                        value: 6,
+                        message: "Minimum 6 Character",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Maximum Length is 10",
+                      },
                     })}
+                    // Live error tracking
+                    onKeyUp={() => {
+                      trigger("ConfirmPassword");
+                    }}
                   />
+                  {errors.ConfirmPassword && (
+                    <p className="text-red-500">
+                      {errors.ConfirmPassword.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Submit button */}

@@ -1,8 +1,11 @@
 import { format } from "date-fns";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
+import auth from "../firbase.init";
 
 export default function Modal({ treatment, selected, setTreatment }) {
+  const [user, loading, error] = useAuthState(auth);
   const getAppointmentData = (event) => {
     event.preventDefault();
     const slot = event.target.slotName.value;
@@ -57,8 +60,8 @@ export default function Modal({ treatment, selected, setTreatment }) {
                             aria-label="Default select example"
                           >
                             <option defaultValue>{treatment?.slots[0]}</option>
-                            {treatment?.slots.map((slot) => (
-                              <option defaultValue={slot}>{slot}</option>
+                            {treatment?.slots.map((slot,index) => (
+                              <option key={index} defaultValue={slot}>{slot}</option>
                             ))}
                           </select>
                         </div>
@@ -67,6 +70,8 @@ export default function Modal({ treatment, selected, setTreatment }) {
                   </div>
                   <div className="form-group mb-6">
                     <input
+                    disabled
+                    value={user?.displayName}
                       type="text"
                       className="form-control block  w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput125"
@@ -83,6 +88,8 @@ export default function Modal({ treatment, selected, setTreatment }) {
                   </div>
                   <div className="form-group mb-6">
                     <input
+                     disabled
+                     value={user?.email}
                       type="email"
                       className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput126"

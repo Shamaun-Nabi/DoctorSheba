@@ -9,8 +9,6 @@ import auth from "../firbase.init";
 export default function Navbar() {
   const [user, loading, error] = useAuthState(auth);
 
-  console.log(user?.photoURL);
-
   const logOut = () => {
     signOut(auth);
   };
@@ -211,7 +209,6 @@ export default function Navbar() {
               </li>
             </NavLink>
           </div>
-
           {/* Right elements */}
         </div>
       </nav>

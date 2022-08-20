@@ -12,6 +12,7 @@ import Reviews from "./Pages/Reviews";
 import UpdateProfile from "./Pages/UpdateProfile";
 import Footer from "./Shared/Footer";
 import Navbar from "./Shared/Navbar";
+import RequireAuth from "./Pages/RequireAuth";
 function App() {
   return (
     <>
@@ -20,12 +21,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/appoint" element={<Appointment />} />
+        <Route
+          path="/appoint"
+          element={
+            <RequireAuth>
+              <Appointment />
+            </RequireAuth>
+          }
+        />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reg" element={<Registration />} />
-        <Route path="/update" element={<UpdateProfile/>} />
+        <Route path="/update" element={<UpdateProfile />} />
       </Routes>
       <Footer />
     </>
