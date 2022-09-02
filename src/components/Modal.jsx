@@ -22,7 +22,7 @@ export default function Modal({ treatment, selected, setTreatment }) {
       userEmail: user.email,
       userName: user.displayName,
     };
-    console.log(userBooking);
+    // console.log(userBooking);
 
     fetch("http://localhost:5000/bookings", {
       method: "POST",
@@ -33,7 +33,11 @@ export default function Modal({ treatment, selected, setTreatment }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        toast.success("Appointment Booked");
+        if (data.success) {
+          toast.success(`Appointment added On ${formateDate}`);
+        } else {
+          toast.error("Already added");
+        }
         // console.log("Success:", data);
       })
       .catch((error) => {

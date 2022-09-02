@@ -35,7 +35,7 @@ export default function ServiceCardAvl({ service, setTreatment }) {
             ) : (
               <button
                 type="button"
-                class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out pointer-events-none opacity-60"
+                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out pointer-events-none opacity-60"
                 disabled
               >
                 Appointment Full
@@ -44,6 +44,8 @@ export default function ServiceCardAvl({ service, setTreatment }) {
           </div>
         </div>
       </div>
+
+      
 
     </>
   );
