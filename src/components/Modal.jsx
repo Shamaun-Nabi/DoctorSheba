@@ -6,11 +6,42 @@ import auth from "../firbase.init";
 
 export default function Modal({ treatment, selected, setTreatment }) {
   const [user, loading, error] = useAuthState(auth);
+  // const { name } = treatment;
+  const formateDate = format(selected, "PP");
   const getAppointmentData = (event) => {
     event.preventDefault();
     const slot = event.target.slotName.value;
-    console.log(treatment?.name, "clicked", slot);
-    toast.success("Appointment Booked");
+    const phone = event.target.phn.value;
+
+    const userBooking = {
+      treatmentId: treatment?._id,
+      treatmentName: treatment?.name,
+      phoneNumber: phone,
+      date: formateDate,
+      slot: slot,
+      userEmail: user.email,
+      userName: user.displayName,
+    };
+    console.log(userBooking);
+
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userBooking),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        toast.success("Appointment Booked");
+        // console.log("Success:", data);
+      })
+      .catch((error) => {
+        toast.error(error);
+        // console.error("Error:", error);
+      });
+    // console.log(treatment?.name, "clicked", slot);
+    // console.log( name, slots);
   };
   return (
     <>
@@ -60,8 +91,10 @@ export default function Modal({ treatment, selected, setTreatment }) {
                             aria-label="Default select example"
                           >
                             <option defaultValue>{treatment?.slots[0]}</option>
-                            {treatment?.slots.map((slot,index) => (
-                              <option key={index} defaultValue={slot}>{slot}</option>
+                            {treatment?.slots.map((slot, index) => (
+                              <option key={index} defaultValue={slot}>
+                                {slot}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -70,8 +103,8 @@ export default function Modal({ treatment, selected, setTreatment }) {
                   </div>
                   <div className="form-group mb-6">
                     <input
-                    disabled
-                    value={user?.displayName}
+                      disabled
+                      value={user?.displayName}
                       type="text"
                       className="form-control block  w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput125"
@@ -80,16 +113,18 @@ export default function Modal({ treatment, selected, setTreatment }) {
                   </div>
                   <div className="form-group mb-6">
                     <input
+                      required
                       type="text"
                       className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput125"
                       placeholder="Phone Number"
+                      name="phn"
                     />
                   </div>
                   <div className="form-group mb-6">
                     <input
-                     disabled
-                     value={user?.email}
+                      disabled
+                      value={user?.email}
                       type="email"
                       className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput126"

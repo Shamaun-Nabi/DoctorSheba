@@ -12,7 +12,7 @@ export default function AvailableService({ selected }) {
       .then((res) => res.json())
       .then((data) => setServices(data));
   }, []);
-  console.log(treatment);
+  // console.log(treatment);
 
   return (
     <>
