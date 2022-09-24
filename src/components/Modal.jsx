@@ -38,7 +38,7 @@ export default function Modal({ treatment, selected, setTreatment, refetch }) {
         } else {
           toast.error("Already added");
           refetch();
-          setTreatment(null);
+          // setTreatment(null);
         }
 
         // console.log("Success:", data);
