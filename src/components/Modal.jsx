@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 import auth from "../firbase.init";
 
-export default function Modal({ treatment, selected, setTreatment }) {
+export default function Modal({ treatment, selected, setTreatment, refetch }) {
   const [user, loading, error] = useAuthState(auth);
   // const { name } = treatment;
   const formateDate = format(selected, "PP");
@@ -37,7 +37,10 @@ export default function Modal({ treatment, selected, setTreatment }) {
           toast.success(`Appointment added On ${formateDate}`);
         } else {
           toast.error("Already added");
+          refetch();
+          setTreatment(null);
         }
+
         // console.log("Success:", data);
       })
       .catch((error) => {
@@ -94,7 +97,8 @@ export default function Modal({ treatment, selected, setTreatment }) {
                             className="form-select appearance block w-full px-3 py-1.5 text-base  text-white bg-slate-700 bg-none  border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-white focus:bg-slate-800 focus:border-blue-600 focus:outline-none"
                             aria-label="Default select example"
                           >
-                            <option defaultValue>{treatment?.slots[0]}</option>
+                            {/* treatment?.slots[0] */}
+                            <option defaultValue>{`Select Time`}</option>
                             {treatment?.slots.map((slot, index) => (
                               <option key={index} defaultValue={slot}>
                                 {slot}

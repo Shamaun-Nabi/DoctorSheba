@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function ServiceCardAvl({ service, setTreatment }) {
+  const { slots } = service;
   return (
     <>
       <div className="flex justify-center py-4">
@@ -16,7 +17,7 @@ export default function ServiceCardAvl({ service, setTreatment }) {
             )}
           </p>
           <p className="text-gray-500 text-base mb-4 text-center">
-            {service?.slots?.length}
+            {slots?.length}
             {service?.slots.length > 1 ? " Spaces" : " Space"} Availvale
           </p>
           <div className="flex justify-center">
@@ -44,9 +45,6 @@ export default function ServiceCardAvl({ service, setTreatment }) {
           </div>
         </div>
       </div>
-
-      
-
     </>
   );
 }

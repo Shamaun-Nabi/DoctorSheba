@@ -1,17 +1,36 @@
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
 import Modal from "./Modal";
 import ServiceCardAvl from "./ServiceCardAvl";
 
 export default function AvailableService({ selected }) {
-  const [services, setServices] = useState([]);
+  // const [services, setServices] = useState([]);
   const [treatment, setTreatment] = useState(null);
+  const formateDate = format(selected, "PP");
 
-  useEffect(() => {
-    fetch("http://localhost:5000/services")
-      .then((res) => res.json())
-      .then((data) => setServices(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/avaiable?${formateDate}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setServices(data));
+  // }, [formateDate]);
+
+  const {
+    refetch,
+    isLoading,
+    error,
+    data: services,
+  } = useQuery(["available", formateDate], () =>
+    fetch(`http://localhost:5000/available?date=${formateDate}`).then((res) =>
+      res.json()
+    )
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   // console.log(treatment);
 
   return (
@@ -39,6 +58,7 @@ export default function AvailableService({ selected }) {
           setTreatment={setTreatment}
           selected={selected}
           treatment={treatment}
+          refetch={refetch}
         />
       </div>
     </>
