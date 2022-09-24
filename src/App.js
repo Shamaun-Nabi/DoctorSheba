@@ -13,6 +13,8 @@ import UpdateProfile from "./Pages/UpdateProfile";
 import Footer from "./Shared/Footer";
 import Navbar from "./Shared/Navbar";
 import RequireAuth from "./Pages/RequireAuth";
+import Dashboard from "./Pages/Dasboard/Dashboard";
+import WelcomeDash from "./Pages/Dasboard/WelcomeDash";
 function App() {
   return (
     <>
@@ -29,6 +31,17 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        >
+          <Route index element={<WelcomeDash />} />
+          <Route path="/dashboard/myProfile" element={<UpdateProfile />} />
+        </Route>
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
