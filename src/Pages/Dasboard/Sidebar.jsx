@@ -53,12 +53,19 @@ export default function Sidebar({ sideBar, setSidebar }) {
                 </span>
                 <p className="text-xl font-thin ">Profile</p>
               </NavLink>
-              <li className="flex  items-center space-x-3 my-3 hover:bg-slate-900  transition cursor-pointer p-2 rounded-md mx-3">
+              <NavLink
+                to="/dashboard/myAppointment"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex  items-center space-x-3 my-3 bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
+                    : "flex  items-center space-x-3 my-3 hover:bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
+                }
+              >
                 <span className="text-2xl">
                   <MdOutlineFavoriteBorder />
                 </span>
-                <p className="text-xl font-thin ">Favourites</p>
-              </li>
+                <p className="text-xl font-thin ">My Appointment</p>
+              </NavLink>
             </ul>
             {/* All Links */}
             <div className="">
