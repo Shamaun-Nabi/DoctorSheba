@@ -7,18 +7,18 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import auth from "../firbase.init";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
+import useToken from "../hooks/useToken";
 
 export default function Registration() {
-  const navigate = useNavigate();
-  const [createUserWithEmailAndPassword, user, loading, error] =
+  const [createUserWithEmailAndPassword, user, loading] =
     useCreateUserWithEmailAndPassword(auth);
-  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-  const [sendEmailVerification, sending, VerificationError] =
-    useSendEmailVerification(auth);
-
+  const [updateProfile, updating] = useUpdateProfile(auth);
+  const [sendEmailVerification] = useSendEmailVerification(auth);
+  const [token] = useToken(user);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,22 +26,30 @@ export default function Registration() {
     trigger,
   } = useForm();
 
+  // Token getting from hooks
+
   if (loading || updating) {
     return <Loading />;
+  }
+
+  if (token) {
+    console.log("excute from token");
+    navigate("/appoint");
   }
   const userInfoSignIn = async (data) => {
     if (data.Password === data.ConfirmPassword) {
       await createUserWithEmailAndPassword(data.Email, data.Password);
       await sendEmailVerification();
       await updateProfile({ displayName: data.fullName });
-
-      console.log(data.Email, data.Password);
-      navigate("/");
+      // console.log(data.Email, data.Password);
+      console.log("execute from function");
+      // navigate("/");
       toast.success("User Created");
     } else {
       toast.error("Password Not Matched");
     }
   };
+
   return (
     <>
       <section className="h-screen">

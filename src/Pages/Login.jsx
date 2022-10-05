@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Loading from "../components/Loading";
 import { async } from "@firebase/util";
+import useToken from "../hooks/useToken";
 
 export default function Login() {
   const inputRef = useRef();
@@ -34,15 +35,19 @@ export default function Login() {
     trigger,
   } = useForm();
 
+  // Token getting from hooks
+
+  const [token] = useToken(user || googleUser);
+
   const navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
   useEffect(() => {
-    if (user || googleUser) {
-      console.log(from);
+    if (token) {
+      // console.log(from);
       return navigate(from, { replace: true });
     }
-  }, [from, googleUser, navigate, user]);
+  }, [from, token, navigate]);
 
   if (loading || googleLoading || loggedLoading) {
     return <Loading />;
@@ -96,7 +101,6 @@ export default function Login() {
                     type="text"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Email address"
-                   
                   />
                   {errors.email && (
                     <p className="text-red-600">{errors.email.message}</p>

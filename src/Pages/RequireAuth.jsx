@@ -3,9 +3,8 @@ import { Navigate, useLocation } from "react-router-dom";
 import Loading from "../components/Loading";
 import auth from "../firbase.init";
 
-
 export default function RequireAuth({ children }) {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   let location = useLocation();
   console.log();
   if (loading) {

@@ -11,6 +11,7 @@ export default function Navbar() {
 
   const logOut = () => {
     signOut(auth);
+    localStorage.removeItem("JWT_TOKEN");
   };
 
   if (loading) {
