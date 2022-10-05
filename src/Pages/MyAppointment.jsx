@@ -8,7 +8,12 @@ export default function MyAppointment() {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/bookings?patient=${user.email}`)
+      fetch(`http://localhost:5000/bookings?patient=${user.email}`, {
+        method: "GET",
+        headers: {
+          authorization: `Bearer${localStorage.getItem("JWT_TOKEN")}`,
+        },
+      })
         .then((res) => res.json())
         .then((data) => setAppointments(data));
     }
@@ -17,7 +22,9 @@ export default function MyAppointment() {
   return (
     <>
       <div className="p-4">
-        <h3 className="text-3xl text-center">{appointments.length} Appointment For {user?.displayName}</h3>
+        <h3 className="text-3xl text-center">
+          {appointments.length} Appointment For {user?.displayName}
+        </h3>
       </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
