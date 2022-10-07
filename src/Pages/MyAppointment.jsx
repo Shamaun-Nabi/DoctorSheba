@@ -27,7 +27,7 @@ export default function MyAppointment() {
         })
         .then((data) => setAppointments(data));
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <>

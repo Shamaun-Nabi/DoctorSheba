@@ -16,6 +16,7 @@ import RequireAuth from "./Pages/RequireAuth";
 import Dashboard from "./Pages/Dasboard/Dashboard";
 import WelcomeDash from "./Pages/Dasboard/WelcomeDash";
 import MyAppointment from "./Pages/MyAppointment";
+import Users from "./components/Users";
 function App() {
   return (
     <>
@@ -43,6 +44,7 @@ function App() {
           <Route index element={<WelcomeDash />} />
           <Route path="/dashboard/myProfile" element={<UpdateProfile />} />
           <Route path="/dashboard/myAppointment" element={<MyAppointment />} />
+          <Route path="/dashboard/users" element={<Users />} />
         </Route>
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<Contact />} />
