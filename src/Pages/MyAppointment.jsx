@@ -1,10 +1,13 @@
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import auth from "../firbase.init";
 
 export default function MyAppointment() {
   const [appointments, setAppointments] = useState([]);
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -16,7 +19,9 @@ export default function MyAppointment() {
       })
         .then((res) => {
           if (res.status === 401 || res.status === 403) {
-            console.log("Error occured");
+            signOut(auth);
+            localStorage.removeItem("JWT_TOKEN");
+            navigate("/");
           }
           return res.json();
         })
