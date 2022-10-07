@@ -11,10 +11,15 @@ export default function MyAppointment() {
       fetch(`http://localhost:5000/bookings?patient=${user.email}`, {
         method: "GET",
         headers: {
-          authorization: `Bearer${localStorage.getItem("JWT_TOKEN")}`,
+          authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
         },
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 401 || res.status === 403) {
+            console.log("Error occured");
+          }
+          return res.json();
+        })
         .then((data) => setAppointments(data));
     }
   }, [user]);
@@ -61,7 +66,10 @@ export default function MyAppointment() {
                 </thead>
                 <tbody>
                   {appointments.map((app, index) => (
-                    <tr className="border-b bg-blue-100 border-blue-200">
+                    <tr
+                      key={index}
+                      className="border-b bg-blue-100 border-blue-200"
+                    >
                       <td className="text-sm text-gray-900 font-medium px-6 py-4 whitespace-nowrap">
                         {index + 1}
                       </td>
