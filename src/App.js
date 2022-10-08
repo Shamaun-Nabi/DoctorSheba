@@ -17,42 +17,51 @@ import Dashboard from "./Pages/Dasboard/Dashboard";
 import WelcomeDash from "./Pages/Dasboard/WelcomeDash";
 import MyAppointment from "./Pages/MyAppointment";
 import Users from "./components/Users";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <>
-      <Toaster position="top-center" reverseOrder={false} />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route
-          path="/appoint"
-          element={
-            <RequireAuth>
-              <Appointment />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          }
-        >
-          <Route index element={<WelcomeDash />} />
-          <Route path="/dashboard/myProfile" element={<UpdateProfile />} />
-          <Route path="/dashboard/myAppointment" element={<MyAppointment />} />
-          <Route path="/dashboard/users" element={<Users />} />
-        </Route>
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/reg" element={<Registration />} />
-        <Route path="/update" element={<UpdateProfile />} />
-      </Routes>
-      <Footer />
+      <QueryClientProvider client={queryClient}>
+        <Toaster position="top-center" reverseOrder={false} />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route
+            path="/appoint"
+            element={
+              <RequireAuth>
+                <Appointment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<WelcomeDash />} />
+            <Route path="/dashboard/myProfile" element={<UpdateProfile />} />
+            <Route
+              path="/dashboard/myAppointment"
+              element={<MyAppointment />}
+            />
+            <Route path="/dashboard/users" element={<Users />} />
+          </Route>
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reg" element={<Registration />} />
+          <Route path="/update" element={<UpdateProfile />} />
+        </Routes>
+        <Footer />
+      </QueryClientProvider>
     </>
   );
 }
