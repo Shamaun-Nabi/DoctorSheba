@@ -9,9 +9,11 @@ import { TiInfoLarge } from "react-icons/ti";
 import { FcBusinessman } from "react-icons/fc";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firbase.init";
+import useAdmin from "../../hooks/useAdmin";
 
 export default function Sidebar({ sideBar, setSidebar }) {
   const [user, loading, error] = useAuthState(auth);
+  const [admin] = useAdmin(user);
   return (
     <>
       <div
@@ -73,19 +75,21 @@ export default function Sidebar({ sideBar, setSidebar }) {
               <hr className="mx-3" />
               <div className="py-3">
                 <ul className=" px-8">
-                  <NavLink
-                    to="/dashboard/users"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "flex  items-center space-x-3 my-3 bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
-                        : "flex  items-center space-x-3 my-3 hover:bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
-                    }
-                  >
-                    <span className="text-2xl">
-                      <FcBusinessman/>
-                    </span>
-                    <p className="text-xl font-thin ">All Users</p>
-                  </NavLink>
+                  {admin && (
+                    <NavLink
+                      to="/dashboard/users"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "flex  items-center space-x-3 my-3 bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
+                          : "flex  items-center space-x-3 my-3 hover:bg-slate-900 transition cursor-pointer p-2 rounded-md mx-3"
+                      }
+                    >
+                      <span className="text-2xl">
+                        <FcBusinessman />
+                      </span>
+                      <p className="text-xl font-thin ">All Users</p>
+                    </NavLink>
+                  )}
                   <li className="hover:bg-slate-900 p-2  transition rounded-md cursor-pointer text-lg ">
                     Add Link1
                   </li>
