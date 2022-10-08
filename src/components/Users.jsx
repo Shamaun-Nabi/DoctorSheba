@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import Loading from "./Loading";
+import { VscVerified } from "react-icons/vsc";
 
 export default function Users() {
   // const [user, setUser] = useState([]);
@@ -17,6 +19,7 @@ export default function Users() {
 
   // Fetch Users with React query
   const {
+    refetch,
     isLoading,
     data: user,
   } = useQuery(["Allusers"], () =>
@@ -27,6 +30,21 @@ export default function Users() {
       },
     }).then((res) => res.json())
   );
+
+  const makeAdmin = (email) => {
+    fetch(`http://localhost:5000/user/admin/${email}`, {
+      method: "PUT",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        refetch();
+        console.log(email);
+        toast.success("Admin Added");
+      });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -73,21 +91,31 @@ export default function Users() {
                             {index + 1}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.email}
+                            <span className="flex items-center">
+                              {user.email}
+                              {user.role && (
+                                <span className="px-2 py-2 text-2xl text-blue-700">
+                                  <VscVerified />
+                                </span>
+                              )}
+                            </span>
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            <button
-                              type="button"
-                              className="inline-block px-6 py-2.5 bg-emerald-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-emerald-800 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out"
-                            >
-                              Make Admin
-                            </button>
+                            {user.role !== "admin" && (
+                              <button
+                                onClick={() => makeAdmin(user.email)}
+                                type="button"
+                                className="inline-block px-6 py-2.5 bg-emerald-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-emerald-800 hover:shadow-lg focus:bg-orange-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-500 active:shadow-lg transition duration-150 ease-in-out"
+                              >
+                                Make Admin
+                              </button>
+                            )}
 
                             <br />
                             <br />
                             <button
                               type="button"
-                              className="inline-block px-6 py-2.5 bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out"
+                              className="inline-block px-6 py-2.5 bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-400 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out"
                             >
                               Delete User
                             </button>
