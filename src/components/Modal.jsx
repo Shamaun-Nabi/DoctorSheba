@@ -24,7 +24,7 @@ export default function Modal({ treatment, selected, setTreatment, refetch }) {
     };
     // console.log(userBooking);
 
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://obscure-scrubland-35514.herokuapp.com/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

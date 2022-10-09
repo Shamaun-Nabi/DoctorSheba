@@ -7,7 +7,7 @@ const useToken = (user) => {
     const currentUser = { email: email };
     // console.log(currentUser)
     if (email) {
-      fetch(`http://localhost:5000/user/${email}`, {
+      fetch(`https://obscure-scrubland-35514.herokuapp.com/user/${email}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -16,7 +16,7 @@ const useToken = (user) => {
       })
         .then((res) => res.json())
         .then((data) => {
-        //   console.log(data);
+          //   console.log(data);
           const token = data.token;
           localStorage.setItem("JWT_TOKEN", token);
           setToken(token);

@@ -11,13 +11,16 @@ export default function MyAppointment() {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/bookings?patient=${user.email}`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
-        },
-      })
+      fetch(
+        `https://obscure-scrubland-35514.herokuapp.com/bookings?patient=${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
+          },
+        }
+      )
         .then((res) => {
           if (res.status === 401 || res.status === 403) {
             signOut(auth);

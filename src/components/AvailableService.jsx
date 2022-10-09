@@ -11,7 +11,7 @@ export default function AvailableService({ selected }) {
   const formateDate = format(selected, "PP");
 
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/avaiable?${formateDate}`)
+  //   fetch(`https://obscure-scrubland-35514.herokuapp.com/avaiable?${formateDate}`)
   //     .then((res) => res.json())
   //     .then((data) => setServices(data));
   // }, [formateDate]);
@@ -22,9 +22,9 @@ export default function AvailableService({ selected }) {
     error,
     data: services,
   } = useQuery(["available", formateDate], () =>
-    fetch(`http://localhost:5000/available?date=${formateDate}`).then((res) =>
-      res.json()
-    )
+    fetch(
+      `https://obscure-scrubland-35514.herokuapp.com/available?date=${formateDate}`
+    ).then((res) => res.json())
   );
 
   if (isLoading) {

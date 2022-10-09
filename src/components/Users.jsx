@@ -7,7 +7,7 @@ import { VscVerified } from "react-icons/vsc";
 export default function Users() {
   // const [user, setUser] = useState([]);
   // useEffect(() => {
-  //   fetch("http://localhost:5000/users", {
+  //   fetch("https://obscure-scrubland-35514.herokuapp.com/users", {
   //     method: "GET",
   //     headers: {
   //       authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
@@ -23,7 +23,7 @@ export default function Users() {
     isLoading,
     data: user,
   } = useQuery(["Allusers"], () =>
-    fetch("http://localhost:5000/users", {
+    fetch("https://obscure-scrubland-35514.herokuapp.com/users", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
@@ -32,7 +32,7 @@ export default function Users() {
   );
 
   const makeAdmin = (email) => {
-    fetch(`http://localhost:5000/user/admin/${email}`, {
+    fetch(`https://obscure-scrubland-35514.herokuapp.com/user/admin/${email}`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
