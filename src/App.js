@@ -18,6 +18,7 @@ import WelcomeDash from "./Pages/Dasboard/WelcomeDash";
 import MyAppointment from "./Pages/MyAppointment";
 import Users from "./components/Users";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import RequireAdmin from "./Pages/RequireAdmin";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +53,14 @@ function App() {
               path="/dashboard/myAppointment"
               element={<MyAppointment />}
             />
-            <Route path="/dashboard/users" element={<Users />} />
+            <Route
+              path="/dashboard/users"
+              element={
+                <RequireAdmin>
+                  <Users />
+                </RequireAdmin>
+              }
+            />
           </Route>
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/contact" element={<Contact />} />
