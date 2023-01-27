@@ -23,7 +23,7 @@ export default function AvailableService({ selected }) {
     data: services,
   } = useQuery(["available", formateDate], () =>
     fetch(
-      `https://obscure-scrubland-35514.herokuapp.com/available?date=${formateDate}`
+      `https://doctorseba.onrender.com/available?date=${formateDate}`
     ).then((res) => res.json())
   );
 

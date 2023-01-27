@@ -23,7 +23,7 @@ export default function Users() {
     isLoading,
     data: user,
   } = useQuery(["Allusers"], () =>
-    fetch("https://obscure-scrubland-35514.herokuapp.com/users", {
+    fetch("https://doctorseba.onrender.com/users", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,
@@ -32,7 +32,7 @@ export default function Users() {
   );
 
   const makeAdmin = (email) => {
-    fetch(`https://obscure-scrubland-35514.herokuapp.com/user/admin/${email}`, {
+    fetch(`https://doctorseba.onrender.com/user/admin/${email}`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${localStorage.getItem("JWT_TOKEN")}`,

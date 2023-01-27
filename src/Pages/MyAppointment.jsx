@@ -12,7 +12,7 @@ export default function MyAppointment() {
   useEffect(() => {
     if (user) {
       fetch(
-        `https://obscure-scrubland-35514.herokuapp.com/bookings?patient=${user.email}`,
+        `https://doctorseba.onrender.com/bookings?patient=${user.email}`,
         {
           method: "GET",
           headers: {
