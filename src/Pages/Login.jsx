@@ -62,6 +62,7 @@ export default function Login() {
   }
   const googleSignIn = async () => {
     await signInWithGoogle();
+    navigate("/");
   };
 
   const onSubmit = async (data) => {
